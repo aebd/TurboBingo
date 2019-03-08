@@ -223,7 +223,7 @@ BEGIN
 		'1':BEGIN
 				jugar;
 				REPEAT
-					write('¿Desea jugar otra vez? Pulse "S" o "N": ');
+					write('Â¿Desea jugar otra vez? Pulse "S" o "N": ');
 					readln(opcion);
 					IF (upcase(opcion)='S') THEN
 						jugar
