@@ -32,14 +32,14 @@ END;
 
 PROCEDURE Logo;
 BEGIN
-	window(23,1,46,6);
+	window(23,1,56,6);
 	TextBackGround(0);
 	TextColor(15);
-	writeln('**********************************');
-	writeln('*                                *');
-	writeln('*       TurboBingo',chr(169),' v3.2         *');
-	writeln('*                                *');
-	writeln('**********************************');
+	write('**********************************');
+	write('*                                *');
+	write('*       TurboBingo',chr(169),' v3.2         *');
+	write('*                                *');
+	write('**********************************');
 END;
 
 PROCEDURE Menu;
@@ -177,93 +177,93 @@ BEGIN
 	textbackground(0);
 	CASE n OF
 	0:BEGIN
-		writeln(' ',x,x,x,x,' ');
-		writeln(x,'    ',x);
-		writeln(x,'   ',x,x);
-		writeln(x,'  ',x,' ',x);
-		writeln(x,' ',x,'  ',x);
-		writeln(x,x,'   ',x);
+		write(' ',x,x,x,x,' ');
+		write(x,'    ',x);
+		write(x,'   ',x,x);
+		write(x,'  ',x,' ',x);
+		write(x,' ',x,'  ',x);
+		write(x,x,'   ',x);
 		write(' ',x,x,x,x,' ');
 	END;
 	1:BEGIN
-		writeln('     ',x);
-		writeln('     ',x);
-		writeln('     ',x);
-		writeln('      ');
-		writeln('     ',x);
-		writeln('     ',x);
+		write('     ',x);
+		write('     ',x);
+		write('     ',x);
+		write('      ');
+		write('     ',x);
+		write('     ',x);
 		write('     ',x);
 	END;
 	2:BEGIN
-		writeln(' ',x,x,x,x,' ');
-		writeln('     ',x);
-		writeln('     ',x);
-		writeln(' ',x,x,x,x,' ');
-		writeln(x,'     ');
-		writeln(x,'     ');
+		write(' ',x,x,x,x,' ');
+		write('     ',x);
+		write('     ',x);
+		write(' ',x,x,x,x,' ');
+		write(x,'     ');
+		write(x,'     ');
 		write(' ',x,x,x,x,' ');
 	END;
 	3:BEGIN
-		writeln(' ',x,x,x,x,' ');
-		writeln('     ',x);
-		writeln('     ',x);
-		writeln(' ',x,x,x,x,' ');
-		writeln('     ',x);
-		writeln('     ',x);
+		write(' ',x,x,x,x,' ');
+		write('     ',x);
+		write('     ',x);
+		write(' ',x,x,x,x,' ');
+		write('     ',x);
+		write('     ',x);
 		write(' ',x,x,x,x,' ');
 	END;
 	4:BEGIN
-		writeln(x,'    ',x);
-		writeln(x,'    ',x);
-		writeln(x,'    ',x);
-		writeln(' ',x,x,x,x,' ');
-		writeln('     ',x);
-		writeln('     ',x);
+		write(x,'    ',x);
+		write(x,'    ',x);
+		write(x,'    ',x);
+		write(' ',x,x,x,x,' ');
+		write('     ',x);
+		write('     ',x);
 		write('     ',x);
 	END;
 	5:BEGIN
-			writeln(' ',x,x,x,x,' ');
-		writeln(x,'     ');
-		writeln(x,'     ');
-		writeln(' ',x,x,x,x,' ');
-		writeln('     ',x);
-		writeln('     ',x);
+		write(' ',x,x,x,x,' ');
+		write(x,'     ');
+		write(x,'     ');
+		write(' ',x,x,x,x,' ');
+		write('     ',x);
+		write('     ',x);
 		write(' ',x,x,x,x,' ');
 	END;
 	6:BEGIN
-			writeln(' ',x,x,x,x,' ');
-		writeln(x,'     ');
-		writeln(x,'     ');
-		writeln(' ',x,x,x,x,' ');
-		writeln(x,'    ',x);
-		writeln(x,'    ',x);
+		write(' ',x,x,x,x,' ');
+		write(x,'     ');
+		write(x,'     ');
+		write(' ',x,x,x,x,' ');
+		write(x,'    ',x);
+		write(x,'    ',x);
 		write(' ',x,x,x,x,' ');
 	END;
 	7:BEGIN
-			writeln(' ',x,x,x,x,' ');
-		writeln('     ',x);
-		writeln('     ',x);
-		writeln('      ');
-		writeln('     ',x);
-		writeln('     ',x);
+		write(' ',x,x,x,x,' ');
+		write('     ',x);
+		write('     ',x);
+		write('      ');
+		write('     ',x);
+		write('     ',x);
 		write('     ',x);
 	END;
 	8:BEGIN
-		writeln(' ',x,x,x,x,' ');
-		writeln(x,'    ',x);
-		writeln(x,'    ',x);
-		writeln(' ',x,x,x,x,' ');
-		writeln(x,'    ',x);
-		writeln(x,'    ',x);
+		write(' ',x,x,x,x,' ');
+		write(x,'    ',x);
+		write(x,'    ',x);
+		write(' ',x,x,x,x,' ');
+		write(x,'    ',x);
+		write(x,'    ',x);
 		write(' ',x,x,x,x,' ');
 		END;
 	9:BEGIN
-			writeln(' ',x,x,x,x,' ');
-		writeln(x,'    ',x);
-		writeln(x,'    ',x);
-		writeln(' ',x,x,x,x,' ');
-		writeln('     ',x);
-		writeln('     ',x);
+		write(' ',x,x,x,x,' ');
+		write(x,'    ',x);
+		write(x,'    ',x);
+		write(' ',x,x,x,x,' ');
+		write('     ',x);
+		write('     ',x);
 		write(' ',x,x,x,x,' ');
 	END;
 END;
@@ -342,9 +342,13 @@ BEGIN
 		write(fich,i);
 		colores(i,j,k);
 		Eliminar(i,bolas);
-		Play(i);
-		key:=readkey;
-		pause:= ord(key)=27;
+		play(i);
+		delay(100);
+		IF KeyPressed THEN
+		BEGIN
+			key:=readkey;
+			pause:= ord(key)=27;
+		END;
 	END;
 	crearconjuntovacio(bolas);
 	Window(1,18,80,25);{ LIMPIA PANTALLA}

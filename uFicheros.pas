@@ -5,56 +5,68 @@ USES uConjuntos,uElem,uProc,crt,uVectores;
 	PROCEDURE Cartones;
 	PROCEDURE cargar(VAR fich:TFileElem;ruta:string;VAR conjunto:TConjunto;VAR fin:boolean);
 	PROCEDURE guardar(VAR save:TFileElem);
+	PROCEDURE GeneraDecenas(inicio,fin:integer; VAR aux:TVector);
+	PROCEDURE MostrarCarton(VAR fich:Text);
 
 implementation
 
-	PROCEDURE Cartones;
-	CONST
-		MAX=15; (* numeros de cada carton*)
-	VAR
-		conj:TConjunto;
-		ruta:string[100];
-		archivo:text;
-		numero,k:integer;
-
-
-	PROCEDURE GeneraDecenas(inicio,fin:integer);
+	PROCEDURE GeneraDecenas(inicio,fin:integer;VAR aux:TVector);
 		CONST
 			NUM_DEC=3; (* numeros a elegir en cada decena*)
 		VAR
 		i,j:integer;
-		vector:TVector;
+		conj:TConjunto;
 	BEGIN
 		CrearConjuntoVacio(conj);
 		Generador(inicio,fin,conj);
 		FOR i:=1 TO NUM_DEC DO BEGIN
 			j:=Elegir(conj);
-			vector[i]:=j;
+			aux[i]:=j;
 			Eliminar(j,conj);
 		END;
-		Ordenar(vector);
-		FOR i:=1 TO 3 DO
-			write(archivo,vector[i],' ');
+		Ordenar(aux);
 	END;
 
+	PROCEDURE MostrarCarton(VAR fich:Text);
+	VAR
+		a:integer;
+		v1,v2,v3,v4,v5:TVector;
+	BEGIN
+		GeneraDecenas(1,10,v1);
+		GeneraDecenas(11,20,v2);
+		GeneraDecenas(21,30,v3);
+		GeneraDecenas(31,40,v4);
+		GeneraDecenas(41,50,v5);
 
+		FOR a:=1 TO 3 DO
+		BEGIN
+			Writeln(fich, v1[a],' ',v2[a],' ',v3[a],' ',v4[a],' ',v5[a]);
+		END;
+	END;
+
+	PROCEDURE Cartones;
+	CONST
+		MAX=15; (* numeros de cada carton*)
+	VAR
+		ruta:string[100];
+		archivo:text;
+		numero,k:longint;
 	BEGIN
 		numero:=0;
 		write('Numero de cartones a generar: ');
 		readln(numero);
-		write('Introduce una ruta donde guardar: ');
+		write('Introduce nombre para el archivo: ');
 		readln(ruta);
+		IF ruta='' THEN
+			ruta:='Default';
+		ruta:=ruta+'.txt';
 		writeln;
 		assign(archivo,ruta);
 		rewrite(archivo);
-
 		FOR k:=1 TO numero DO BEGIN
-			write(archivo,'Cartón ',k,':  ');
-			GeneraDecenas(1,10);
-			GeneraDecenas(11,20);
-			GeneraDecenas(21,30);
-			GeneraDecenas(31,40);
-			GeneraDecenas(41,50);
+			writeln(archivo,'.: Cartón ',k,':.');
+			writeln(archivo);
+			MostrarCarton(archivo);
 			writeln(archivo, chr(10));
 		END;
 		close(archivo);
