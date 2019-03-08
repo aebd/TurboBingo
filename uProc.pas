@@ -4,6 +4,7 @@ USES uConjuntos,uElem,Crt;
 
 PROCEDURE Inicializar;
 PROCEDURE Menu;
+PROCEDURE Logo;
 PROCEDURE tablero;
 
 IMPLEMENTATION
@@ -18,26 +19,49 @@ BEGIN
 	TextBackGround(0);
 	clrscr;
 	gotoXY(54,25);
+	TextColor(8);
 	write(chr(184),'2012 TurboBingo Unlimited');
 END;
 
-PROCEDURE Menu;
+PROCEDURE Logo;
 BEGIN
 	window(23,1,46,6);
 	TextBackGround(0);
 	TextColor(15);
 	writeln('**********************************');
 	writeln('*                                *');
-	writeln('*       TurboBingo',chr(169),' v2.1         *');
+	writeln('*       TurboBingo',chr(169),' v2.2         *');
 	writeln('*                                *');
 	writeln('**********************************');
 END;
 
-
+PROCEDURE Menu;
+BEGIN
+	Logo;
+	Window(26,7,80,8);
+	TextColor(11);
+	TextBackground(1);
+	write('########    MENU    ########');
+	Window(12,10,80,25);
+	TextBackGround(0);
+	TextColor(7);
+	writeln('1 - JUGAR');
+	writeln;
+	writeln('2 - CARTONES');
+	writeln;
+	writeln;
+	writeln;
+	writeln;
+	writeln('3- SALIR');
+	writeln;
+	writeln;
+	write('Que desea hacer: ');
+END;
 PROCEDURE tablero;
 VAR
 	j:integer;
 BEGIN
+	logo;
 	Window(4,6,75,18);
 	TextColor(15);
 	TextBackGround(1);
@@ -90,9 +114,10 @@ BEGIN
 	TextBackGround(0);
 	clrscr;
 	gotoXY(54,8);
+	TextColor(8);
 	write(chr(184),'2012 TurboBingo Unlimited');
-	gotoXY(1,1);
-	writeln;
+	gotoXY(7,4);
+	TextColor(15);
 END;
 
 

@@ -122,6 +122,23 @@ PROCEDURE sorteo;
 VAR
 	i,j,k:TElemento;
 BEGIN
+	gotoXY(54,2);
+	TextColor(7);
+	Write('Pulsa ');
+	TextColor(15);
+	write('[ENTER]');
+	TextColor(7);
+	write(' para obtener');
+	gotoXY(54,3);
+	write('una nueva bola...');
+	gotoXY(54,5);
+	write('Pulsa ');
+	TextColor(15);
+	write('[ESC]');
+	TextColor(7);
+	write(' para volver al');
+	gotoXY(54,6);
+	write('menu...');
 	k:=0;
 	j:=0;
 	WHILE NOT EsConjuntoVacio(conjunto) DO BEGIN
@@ -160,31 +177,75 @@ BEGIN
 	clrscr;
 	Writeln('El sorteo ha terminado, no quedan bolas');
 END;
+
+PROCEDURE jugar;
 BEGIN
-	Inicializar;
-	Menu;
 	tablero;
-	Generador(bolas,conjunto);{Selimita a 50 el numero de bolas}
-	Guardar(conjunto);
+	Generador(bolas,conjunto);
+	write('Pulsa [ENTER] para comenzar...');
+	readln;
 	tablero;
+	sorteo;
+END;
+
+PROCEDURE carton;
+BEGIN
+	logo;
+	Window(26,7,80,8);
+	TextColor(11);
+	TextBackground(1);
+	write('########   CARTONES   ########');
+	Window(12,10,80,25);
+	TextBackGround(0);
+	clrscr;
+	gotoXY(43,16);
+	TextColor(8);
+	write(chr(184),'2012 TurboBingo Unlimited');
+	Window(12,10,80,25);
+	TextColor(7);
+	Generador(bolas,conjunto);
+	Cartones(conjunto);
+	gotoxy(1,12);
+	write('Pulsa ');
+	TextColor(15);
+	write('[ENTER]');
+	TextColor(7);
+	write(' para continuar ... ');
+	readln;
+END;
+
+BEGIN
 	REPEAT
-		Sorteo;
-		write('¿Desea jugar otra vez? Pulse "S" o "N": ');
+		Inicializar;
+		Menu;
 		readln(opcion);
-		writeln;
-		IF (upcase(opcion)='S') THEN
-			BEGIN
-				Inicializar;
-				Menu;
-				tablero;
-				Generador(bolas,conjunto);{Selimita a 50 el numero de bolas}
-				Guardar(conjunto);
-				tablero;
+		CASE opcion OF
+		'1':BEGIN
+				jugar;
+				REPEAT
+					write('Â¿Desea jugar otra vez? Pulse "S" o "N": ');
+					readln(opcion);
+					IF (upcase(opcion)='S') THEN
+						jugar
+					ELSE
+						opcion:='N';
+				UNTIL opcion='N';
+			END;
+		'2':carton;
+		'3':BEGIN
 				writeln;
-			END
-		ELSE
-			opcion:='N';
-	UNTIL opcion='N';
-readln;
+				writeln('Gracias por utilizar TurboBingo',chr(169),' v2.2');
+				write('Pulsa ');
+				TextColor(15);
+				write('[ENTER]');
+				TextColor(7);
+				write(' para salir...');
+				readln;
+				exit;
+			END;
+	ELSE
+	write('Por favor escoge una opcion valida(1-3): ');
+	END;
+	UNTIL opcion='3';
 END.
 
