@@ -18,7 +18,7 @@ BEGIN
 	TextBackGround(0);
 	clrscr;
 	gotoXY(54,25);
-	write('©2012 TurboBingo Unlimited');
+	write(chr(184),'2012 TurboBingo Unlimited');
 END;
 
 PROCEDURE Menu;
@@ -28,7 +28,7 @@ BEGIN
 	TextColor(15);
 	writeln('**********************************');
 	writeln('*                                *');
-	writeln('*       TurboBingo',chr(169),' v2.0         *');
+	writeln('*       TurboBingo',chr(169),' v2.1         *');
 	writeln('*                                *');
 	writeln('**********************************');
 END;
@@ -94,5 +94,6 @@ BEGIN
 	gotoXY(1,1);
 	writeln;
 END;
+
 
 END.

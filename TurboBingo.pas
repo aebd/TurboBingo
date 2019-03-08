@@ -6,11 +6,11 @@ VAR
 	conjunto:TConjunto;
 	opcion:char;
 
-PROCEDURE numero(n:integer);
+PROCEDURE numero(n,color:integer);
 CONST
 	x=chr(219);
 BEGIN
-	textcolor(10);
+	textcolor(color);
 	textbackground(0);
 	CASE n OF
 	0:BEGIN
@@ -106,30 +106,52 @@ BEGIN
 END;
 END;
 
-PROCEDURE tachar(n:integer);
+PROCEDURE tachar(n,color:integer);
 VAR
 	x,y:integer;
 BEGIN
 	x:=7*((n-1) MOD 10)+5;{Calcula la posicion X de la casilla}
 	y:=2*((n-1) DIV 10)+7;{Calcula la posicion Y de la casilla}
 	gotoXY(x,y);
-	TextBackGround(2);
+	TextBackGround(color);
 	TextColor(15);
 	write('  ',(n DIV 10),(n MOD 10),'  ');{Re escribe el numero en verde}
 END;
 
 PROCEDURE sorteo;
 VAR
-	i:TElemento;
+	i,j,k:TElemento;
 BEGIN
+	k:=0;
+	j:=0;
 	WHILE NOT EsConjuntoVacio(conjunto) DO BEGIN
 		i:=Elegir(conjunto);
-		window(30,18,35,25);
-		numero(i DIV 10);
-		window(37,18,42,25);
-		numero(i MOD 10);
+		IF j<>0 THEN
+		BEGIN
+			tachar(j,5);{tacha en magenta}
+			window(23,18,28,25);
+			numero(j DIV 10,12);
+			window(30,18,35,25);
+			numero(j MOD 10,12);
+			window(1,1,80,25);
+			IF k<>0 THEN
+			BEGIN
+				tachar(k,2);{tacha en Verde}
+				window(6,18,11,25);
+				numero(k DIV 10,4);
+				window(13,18,18,25);
+				numero(k MOD 10,4);
+				window(1,1,80,25);
+			END;
+		END;
+		window(40,18,45,25);
+		numero(i DIV 10,10);
+		window(47,18,52,25);
+		numero(i MOD 10,10);
 		window(1,1,80,25);
-		tachar(i);
+		k:=j;
+		j:=i;
+		tachar(i,4);{Tacha en rojo}
 		readln;
 		Eliminar(i,conjunto);
 	END;

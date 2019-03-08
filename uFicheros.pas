@@ -12,18 +12,18 @@ implementation
 	VAR
 		ruta:string[100];
 		archivo:text;
-		numero2,j,k:integer;
+		numero,j,k:integer;
 		num:TElemento;
 	BEGIN
-		numero2:=0;
+		numero:=0;
 		write('Numero de cartones a generar: ');
-		readln(numero2);
+		readln(numero);
 		write('Introduce una ruta donde guardar: ');
 		readln(ruta);
 		writeln;
 		assign(archivo,ruta);
 		rewrite(archivo);
-		FOR j:=1 TO numero2 DO
+		FOR j:=1 TO numero DO
 		BEGIN
 			write(archivo,'Cartón ',j,':  ');
 			FOR k:=1 TO MAX DO

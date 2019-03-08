@@ -167,10 +167,11 @@ implementation
 	FUNCTION Elegir(conjunto:TConjunto):TElemento;
 	VAR
 		aux:TConjunto;
-		i:TElemento;
+		i,j:TElemento;
 	BEGIN
 		aux:=conjunto;
-		FOR i:=0 TO random(CardinalConjunto(conjunto))-1 DO
+		j:=random(CardinalConjunto(conjunto))-1;
+		FOR i:=0 TO j DO
 			aux:=aux^.sig;
 		Elegir:=aux^.info;
 	END;
