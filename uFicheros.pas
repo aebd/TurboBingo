@@ -2,11 +2,11 @@ unit uFicheros;
 interface
 USES uConjuntos,uElem;
 
-	PROCEDURE Guardar(VAR conjunto:TConjunto);
+	PROCEDURE Cartones(VAR conjunto:TConjunto);
 
 implementation
 
-	PROCEDURE Guardar(VAR conjunto:TConjunto);
+	PROCEDURE Cartones(VAR conjunto:TConjunto);
 	CONST
 		MAX=7; (* numeros de cada carton*)
 	VAR
@@ -35,5 +35,6 @@ implementation
 			writeln(archivo);
 		END;
 		close(archivo);
+		writeln('Se ha guardado con exito el archivo ',ruta,' ');
 	END;
 end.
