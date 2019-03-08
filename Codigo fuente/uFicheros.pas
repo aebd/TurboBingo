@@ -37,10 +37,9 @@ implementation
 		GeneraDecenas(21,30,v3);
 		GeneraDecenas(31,40,v4);
 		GeneraDecenas(41,50,v5);
-
 		FOR a:=1 TO 3 DO
 		BEGIN
-			Writeln(fich, v1[a],' ',v2[a],' ',v3[a],' ',v4[a],' ',v5[a]);
+			Writeln(fich, (v1[a] DIV 10),(v1[a] MOD 10),' ',v2[a],' ',v3[a],' ',v4[a],' ',v5[a]);
 		END;
 	END;
 

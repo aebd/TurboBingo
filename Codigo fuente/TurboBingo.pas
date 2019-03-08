@@ -116,7 +116,7 @@ BEGIN
 			END;
 		'4':BEGIN
 				writeln;
-				writeln('Gracias por utilizar TurboBingo',chr(169),' v3.2');
+				writeln('Gracias por utilizar TurboBingo',chr(169),' v3.4');
 				write('Pulsa ');
 				TextColor(15);
 				write('[ENTER]');

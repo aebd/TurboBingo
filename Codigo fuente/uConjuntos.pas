@@ -175,6 +175,5 @@ implementation
 			aux:=aux^.sig;
 		Elegir:=aux^.info;
 	END;
-
 BEGIN randomize;
 end.

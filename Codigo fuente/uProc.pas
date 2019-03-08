@@ -37,7 +37,7 @@ BEGIN
 	TextColor(15);
 	write('**********************************');
 	write('*                                *');
-	write('*       TurboBingo',chr(169),' v3.2         *');
+	write('*       TurboBingo',chr(169),' v3.4         *');
 	write('*                                *');
 	write('**********************************');
 END;
