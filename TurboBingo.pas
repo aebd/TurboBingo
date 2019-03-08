@@ -1,5 +1,5 @@
 PROGRAM Bingo;
-USES uConjuntos,uElem,uProc,uFicheros,Crt;
+USES uConjuntos,uElem,uProc,uFicheros,Crt,uSonido;
 CONST
 	bolas=50;
 VAR
@@ -91,7 +91,7 @@ BEGIN
 			END;
 		'4':BEGIN
 				writeln;
-				writeln('Gracias por utilizar TurboBingo',chr(169),' v2.5');
+				writeln('Gracias por utilizar TurboBingo',chr(169),' v3.0');
 				write('Pulsa ');
 				TextColor(15);
 				write('[ENTER]');

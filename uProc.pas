@@ -1,6 +1,6 @@
 UNIT uProc;
 INTERFACE
-USES uConjuntos,uElem,Crt;
+USES uConjuntos,uElem,Crt,uSonido;
 
 PROCEDURE Inicializar;
 PROCEDURE Menu;
@@ -37,7 +37,7 @@ BEGIN
 	TextColor(15);
 	writeln('**********************************');
 	writeln('*                                *');
-	writeln('*       TurboBingo',chr(169),' v2.5         *');
+	writeln('*       TurboBingo',chr(169),' v3.0         *');
 	writeln('*                                *');
 	writeln('**********************************');
 END;
@@ -339,6 +339,7 @@ BEGIN
 	pause:=FALSE;
 	WHILE NOT EsConjuntoVacio(bolas) AND NOT pause DO BEGIN
 		i:=Elegir(bolas);
+		Play(i);
 		write(fich,i);
 		colores(i,j,k);
 		Eliminar(i,bolas);
