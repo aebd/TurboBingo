@@ -1,5 +1,5 @@
 PROGRAM Bingo;
-USES uConjuntos,uElem;
+USES uConjuntos,uElem,uFicheros;
 VAR
 	numero,i:TElemento;
 	conjunto:TConjunto;
@@ -13,7 +13,10 @@ PROCEDURE Menu;
 BEGIN
 	writeln('*********************************');
 	writeln('*                               *');
-	writeln('* Bienvenido al TurboBingo v1.1 *');
+	writeln('* Bienvenido al TurboBingo v1.2 *');
+	writeln('*                               *');
+	writeln('*  ©2012 TurboBingo  Unlimited  *');
+	writeln('*      All rights reserved      *');
 	writeln('*                               *');
 	writeln('*********************************');
 	writeln;
@@ -33,6 +36,7 @@ BEGIN
 	END;
 	Writeln('El sorteo ha terminado, no quedan bolas');
 END;
+
 BEGIN
 	numero:=0;
 	Inicializar;
@@ -40,6 +44,7 @@ BEGIN
 	write('Escriba el numero de bolas: ');
 	readln(numero);
 	Generar(numero);
+	Guardar(conjunto);
 	REPEAT
 		Sorteo;
 		write('?Desea jugar otra vez? Pulse "S" o "N": ');
@@ -60,4 +65,3 @@ BEGIN
 
 readln;
 END.
-
