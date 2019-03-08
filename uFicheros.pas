@@ -1,6 +1,6 @@
 unit uFicheros;
 interface
-USES uConjuntos,uElem,uProc;
+USES uConjuntos,uElem,uProc,crt;
 
 	PROCEDURE Cartones;
 	PROCEDURE cargar(VAR fich:TFileElem;ruta:string[100];VAR conjunto:TConjunto);
@@ -60,10 +60,8 @@ BEGIN
 		tablero;
 		crearconjuntovacio(conjunto);
 		Generador(50,conjunto);
-		write('Pulsa [ENTER] para comenzar...');
-		readln;
 		tablero;
-		IF filesize(fich)<50 THEN
+		IF (filesize(fich)<50) AND (filesize(fich)>0) THEN
 		BEGIN
 			WHILE NOT EOF(fich)	DO
 			BEGIN
@@ -74,6 +72,8 @@ BEGIN
 				l:=l+1;
 			END;
 		close(fich);
+		instrucciones;
+		readln;
 		sorteo(conjunto,a,b,TRUE);
 		END
 		ELSE
@@ -81,6 +81,10 @@ BEGIN
 			close(fich);
 			crearconjuntovacio(conjunto);
 			Generador(50,conjunto);
+			window(1,16,80,25);
+			gotoXY(7,4);
+			write('Pulsa [ENTER] para comenzar...');
+			readln;
 			tablero;
 			a:=0;
 			b:=0;

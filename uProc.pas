@@ -11,6 +11,8 @@ PROCEDURE tachar(n,color:integer);
 PROCEDURE numero(n,color:integer);
 PROCEDURE sorteo(VAR bolas:TConjunto;VAR j,k:TElemento; pause:boolean);
 PROCEDURE creararchivo(VAR fich:TFileElem);
+PROCEDURE Pausa;
+PROCEDURE instrucciones;
 
 IMPLEMENTATION
 VAR
@@ -35,7 +37,7 @@ BEGIN
 	TextColor(15);
 	writeln('**********************************');
 	writeln('*                                *');
-	writeln('*       TurboBingo',chr(169),' v2.3         *');
+	writeln('*       TurboBingo',chr(169),' v2.4         *');
 	writeln('*                                *');
 	writeln('**********************************');
 END;
@@ -58,11 +60,39 @@ BEGIN
 	writeln;
 	writeln;
 	writeln;
-	writeln('4- SALIR');
+	writeln('4 - SALIR');
 	writeln;
 	writeln;
 	write('Que desea hacer: ');
 END;
+
+PROCEDURE Pausa;
+BEGIN
+	Logo;
+	Window(26,6,54,21);
+	TextBackGround(7);
+	clrscr;
+	Window(26,6,54,6);
+	TextColor(14);
+	TextBackground(4);
+	write('########    PAUSA    ########');
+	Window(28,9,54,21);
+	TextColor(0);
+	TextBackGround(7);
+	writeln('1 - NUEVA PARTIDA');
+	writeln;
+	writeln('2 - GUARDAR');
+	writeln;
+	writeln('3 - ABANDONAR');
+	writeln;
+	writeln;
+	writeln;
+	writeln('4 - VOLVER');
+	writeln;
+	writeln;
+	write('Que desea hacer: ');
+END;
+
 PROCEDURE tablero;
 VAR
 	j:integer;
@@ -267,22 +297,10 @@ IF j<>0 THEN
 		j:=i;
 		tachar(i,4);{Tacha en rojo}
 END;
-
-PROCEDURE sorteo(VAR bolas:TConjunto;VAR j,k:TElemento; pause:boolean);
-VAR
-	fich:TFileElem;
-	i:TElemento;
-	key:char;
+PROCEDURE instrucciones;
 BEGIN
-	IF pause THEN
-	BEGIN
-	assign(fich, 'save.tmp');
-	reset(fich);
-	Seek (fich, FileSize(fich));
-	END
-	ELSE
-	creararchivo(fich);
-	pause:=FALSE;
+	window(1,17,80,25);
+	TextBackground(0);
 	gotoXY(54,2);
 	TextColor(7);
 	Write('Pulsa ');
@@ -300,6 +318,24 @@ BEGIN
 	write(' para volver al');
 	gotoXY(54,6);
 	write('menu...');
+	window(1,1,80,25);
+END;
+PROCEDURE sorteo(VAR bolas:TConjunto;VAR j,k:TElemento; pause:boolean);
+VAR
+	fich:TFileElem;
+	i:TElemento;
+	key:char;
+BEGIN
+	IF pause THEN
+	BEGIN
+	assign(fich, 'save.tmp');
+	reset(fich);
+	Seek (fich, FileSize(fich));
+	END
+	ELSE
+	creararchivo(fich);
+	instrucciones;
+	pause:=FALSE;
 	WHILE NOT EsConjuntoVacio(bolas) AND NOT pause DO BEGIN
 		i:=Elegir(bolas);
 		write(fich,i);
@@ -312,8 +348,6 @@ BEGIN
 	crearconjuntovacio(bolas);
 	Window(1,18,80,25);{ LIMPIA PANTALLA}
 	TextBackGround(0);
-	clrscr;
-	Writeln('El sorteo ha terminado, no quedan bolas');
 END;
 
 PROCEDURE creararchivo(VAR fich:TFileElem);

@@ -25,10 +25,10 @@ END;
 PROCEDURE carton;
 BEGIN
 	logo;
-	Window(26,7,80,8);
+	Window(27,7,80,8);
 	TextColor(11);
 	TextBackground(1);
-	write('########   CARTONES   ########');
+	write('#######   CARTONES   #######');
 	Window(12,10,80,25);
 	TextBackGround(0);
 	clrscr;
@@ -56,6 +56,20 @@ BEGIN
 		'1':BEGIN
 				jugar(conjunto);
 				REPEAT
+				pausa;
+				readln(opcion);
+				CASE opcion OF
+				'1':jugar(conjunto);
+				'2':BEGIN
+					write('Hay que hacer el programa para guardar');
+					readln;
+					END;
+				'3':exit;
+				'4':cargar(archivo,'save.tmp',conjunto);
+				END;
+				UNTIL opcion='2';
+				{
+				REPEAT
 					write('¿Desea jugar otra vez? Pulse "S" o "N": ');
 					readln(opcion);
 					IF (upcase(opcion)='S') THEN
@@ -63,12 +77,13 @@ BEGIN
 					ELSE
 						opcion:='N';
 				UNTIL opcion='N';
-			END;
+				}
+				END;
 		'2':carton;
 		'3':cargar(archivo,'save.tmp',conjunto);
 		'4':BEGIN
 				writeln;
-				writeln('Gracias por utilizar TurboBingo',chr(169),' v2.3');
+				writeln('Gracias por utilizar TurboBingo',chr(169),' v2.4');
 				write('Pulsa ');
 				TextColor(15);
 				write('[ENTER]');
