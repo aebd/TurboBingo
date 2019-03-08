@@ -9,7 +9,7 @@ PROCEDURE tablero;
 PROCEDURE colores(VAR i,j,k:TElemento);
 PROCEDURE tachar(n,color:integer);
 PROCEDURE numero(n,color:integer);
-PROCEDURE sorteo(VAR bolas:TConjunto;VAR j,k:TElemento; pause:boolean);
+PROCEDURE sorteo(VAR bolas:TConjunto;VAR j,k:TElemento; pause:boolean; VAR fin:boolean);
 PROCEDURE creararchivo(VAR fich:TFileElem);
 PROCEDURE Pausa;
 PROCEDURE instrucciones;
@@ -37,7 +37,7 @@ BEGIN
 	TextColor(15);
 	writeln('**********************************');
 	writeln('*                                *');
-	writeln('*       TurboBingo',chr(169),' v2.4         *');
+	writeln('*       TurboBingo',chr(169),' v2.5         *');
 	writeln('*                                *');
 	writeln('**********************************');
 END;
@@ -56,7 +56,7 @@ BEGIN
 	writeln;
 	writeln('2 - CARTONES');
 	writeln;
-	writeln('3 - CONTINUAR');
+	writeln('3 - CARGAR');
 	writeln;
 	writeln;
 	writeln;
@@ -69,21 +69,21 @@ END;
 PROCEDURE Pausa;
 BEGIN
 	Logo;
-	Window(26,6,54,21);
+	Window(25,6,53,21);
 	TextBackGround(7);
 	clrscr;
-	Window(26,6,54,6);
+	Window(25,6,53,6);
 	TextColor(14);
 	TextBackground(4);
 	write('########    PAUSA    ########');
-	Window(28,9,54,21);
+	Window(27,9,53,21);
 	TextColor(0);
 	TextBackGround(7);
 	writeln('1 - NUEVA PARTIDA');
 	writeln;
 	writeln('2 - GUARDAR');
 	writeln;
-	writeln('3 - ABANDONAR');
+	writeln('3 - VOLVER AL MENU');
 	writeln;
 	writeln;
 	writeln;
@@ -149,7 +149,7 @@ BEGIN
 	Window(1,17,80,25);
 	TextBackGround(0);
 	clrscr;
-	gotoXY(54,8);
+	gotoXY(54,9);
 	TextColor(8);
 	write(chr(184),'2012 TurboBingo Unlimited');
 	gotoXY(7,4);
@@ -320,12 +320,13 @@ BEGIN
 	write('menu...');
 	window(1,1,80,25);
 END;
-PROCEDURE sorteo(VAR bolas:TConjunto;VAR j,k:TElemento; pause:boolean);
+PROCEDURE sorteo(VAR bolas:TConjunto;VAR j,k:TElemento; pause:boolean; VAR fin:boolean);
 VAR
 	fich:TFileElem;
 	i:TElemento;
 	key:char;
 BEGIN
+	fin:=FALSE;
 	IF pause THEN
 	BEGIN
 	assign(fich, 'save.tmp');
@@ -344,10 +345,21 @@ BEGIN
 		key:=readkey;
 		pause:= ord(key)=27;
 	END;
-	close(fich);
 	crearconjuntovacio(bolas);
 	Window(1,18,80,25);{ LIMPIA PANTALLA}
 	TextBackGround(0);
+	IF filepos(fich)<>50 THEN
+	BEGIN
+		close(fich);
+		pausa;
+	END
+	ELSE
+		BEGIN
+			erase(fich); {BORRA EL ARCHIVO AL ACABAR LA PARTIDA}
+			close(fich);
+			tablero;
+			fin:=TRUE;
+		END;
 END;
 
 PROCEDURE creararchivo(VAR fich:TFileElem);

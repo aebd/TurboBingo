@@ -6,8 +6,10 @@ VAR
 	conjunto:TConjunto;
 	opcion:char;
 	archivo:TFileElem;
+	fin:boolean;
+	ruta:string;
 
-PROCEDURE jugar(VAR conj:Tconjunto);
+PROCEDURE jugar(VAR conj:Tconjunto;VAR bol:boolean);
 VAR
 j,k:TElemento;
 BEGIN
@@ -19,7 +21,7 @@ BEGIN
 	write('Pulsa [ENTER] para comenzar...');
 	readln;
 	tablero;
-	sorteo(conj,j,k,FALSE);
+	sorteo(conj,j,k,FALSE,bol);
 END;
 
 PROCEDURE carton;
@@ -54,36 +56,42 @@ BEGIN
 		readln(opcion);
 		CASE opcion OF
 		'1':BEGIN
-				jugar(conjunto);
+				jugar(conjunto,fin);
+				IF fin THEN
+				BEGIN
+					Window(1,1,80,25);
+					TextBackGround(0);
+					clrscr;
+					gotoXY(54,25);
+					TextColor(8);
+					write(chr(184),'2012 TurboBingo Unlimited');
+					logo;
+				END
+				ELSE BEGIN
 				REPEAT
 				pausa;
 				readln(opcion);
 				CASE opcion OF
-				'1':jugar(conjunto);
-				'2':BEGIN
-					write('Hay que hacer el programa para guardar');
-					readln;
-					END;
-				'3':exit;
+				'1':jugar(conjunto,fin);
+				'2':guardar(archivo);
+				'3':BEGIN;END;
 				'4':cargar(archivo,'save.tmp',conjunto);
+				ELSE
+					Write('Introduzca una opcion valida (1-4): ');
 				END;
-				UNTIL opcion='2';
-				{
-				REPEAT
-					write('¿Desea jugar otra vez? Pulse "S" o "N": ');
-					readln(opcion);
-					IF (upcase(opcion)='S') THEN
-						jugar(conjunto)
-					ELSE
-						opcion:='N';
-				UNTIL opcion='N';
-				}
+				UNTIL (opcion='2') OR (opcion='3');
 				END;
+			END;
 		'2':carton;
-		'3':cargar(archivo,'save.tmp',conjunto);
+		'3':BEGIN
+			Write('Nombre del archivo a cargar: ');
+			readln(ruta);
+			ruta:=ruta+'.sav';
+			cargar(archivo,ruta,conjunto);
+			END;
 		'4':BEGIN
 				writeln;
-				writeln('Gracias por utilizar TurboBingo',chr(169),' v2.4');
+				writeln('Gracias por utilizar TurboBingo',chr(169),' v2.5');
 				write('Pulsa ');
 				TextColor(15);
 				write('[ENTER]');

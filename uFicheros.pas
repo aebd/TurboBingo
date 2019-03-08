@@ -3,7 +3,8 @@ interface
 USES uConjuntos,uElem,uProc,crt;
 
 	PROCEDURE Cartones;
-	PROCEDURE cargar(VAR fich:TFileElem;ruta:string[100];VAR conjunto:TConjunto);
+	PROCEDURE cargar(VAR fich:TFileElem;ruta:string;VAR conjunto:TConjunto);
+	PROCEDURE guardar(VAR save:TFileElem);
 
 implementation
 
@@ -44,14 +45,16 @@ implementation
 	END;
 
 
-PROCEDURE cargar(VAR fich:TFileElem;ruta:string[100];VAR conjunto:TConjunto);
+PROCEDURE cargar(VAR fich:TFileElem;ruta:string;VAR conjunto:TConjunto);
 VAR
 	elem,a,b:TElemento;
 	l:integer;
+	fin:boolean;
 BEGIN
 	a:=0;
 	b:=0;
 	l:=0;
+	fin:=FALSE;
 	assign(fich, ruta);
 	{$I-}   {Desactica el control de errores}
 	reset(fich);
@@ -74,7 +77,7 @@ BEGIN
 		close(fich);
 		instrucciones;
 		readln;
-		sorteo(conjunto,a,b,TRUE);
+		sorteo(conjunto,a,b,TRUE,fin);
 		END
 		ELSE
 		BEGIN
@@ -88,8 +91,42 @@ BEGIN
 			tablero;
 			a:=0;
 			b:=0;
-			sorteo(conjunto,a,b,FALSE);
+			sorteo(conjunto,a,b,FALSE,fin);
 		END;
+END;
+
+PROCEDURE guardar(VAR save:TFileElem);
+VAR
+	rut:string;
+BEGIN
+	window(1,1,80,25);
+	textbackground(0);
+	clrscr;
+	logo;
+	Window(26,7,54,7);
+	TextColor(11);
+	TextBackground(1);
+	write('#######    GUARDAR   #######');
+	Window(12,10,80,25);
+	TextBackGround(0);
+	gotoXY(43,16);
+	TextColor(8);
+	write(chr(184),'2012 TurboBingo Unlimited');
+	Window(12,10,80,25);
+	TextBackGround(0);
+	TextColor(7);
+	assign(save,'save.tmp');
+	Write('Introduce un nombre para el fichero: ');
+	readln(rut);
+	rut:=rut +'.sav';
+	rename(save,rut);
+	gotoxy(1,12);
+	write('Pulsa ');
+	TextColor(15);
+	write('[ENTER]');
+	TextColor(7);
+	write(' para continuar ... ');
+	readln;
 END;
 
 end.
