@@ -3,7 +3,7 @@ interface
 USES uConjuntos,uElem,uProc,crt;
 
 	PROCEDURE Cartones;
-	PROCEDURE cargar(VAR fich:TFileElem;ruta:string;VAR conjunto:TConjunto);
+	PROCEDURE cargar(VAR fich:TFileElem;ruta:string;VAR conjunto:TConjunto;VAR fin:boolean);
 	PROCEDURE guardar(VAR save:TFileElem);
 
 implementation
@@ -45,59 +45,70 @@ implementation
 	END;
 
 
-PROCEDURE cargar(VAR fich:TFileElem;ruta:string;VAR conjunto:TConjunto);
+PROCEDURE cargar(VAR fich:TFileElem;ruta:string;VAR conjunto:TConjunto;VAR fin:boolean);
 VAR
 	elem,a,b:TElemento;
 	l:integer;
-	fin:boolean;
+	fich2:TFileElem;
 BEGIN
 	a:=0;
 	b:=0;
 	l:=0;
-	fin:=FALSE;
+	fin:=TRUE;
+	IF ruta <> 'save.tmp' THEN
+	BEGIN
+		assign(fich2,'save.tmp');
+		{$I-}   {Desactica el control de errores}
+			reset(fich2);
+		{$I+}   {Actica el control de errores}
+		IF IORESULT = 0 THEN
+		BEGIN
+			close(fich2);
+			erase(fich2);
+		END;
+	END;
 	assign(fich, ruta);
 	{$I-}   {Desactica el control de errores}
 	reset(fich);
 	{$I+}   {Actica el control de errores}
 	IF IORESULT= 0 THEN   {IORESULT almacena el n£mero de fallos en el tiempo que estaba desactivado el cotrol}
+	BEGIN
 		tablero;
 		crearconjuntovacio(conjunto);
 		Generador(50,conjunto);
 		tablero;
-		IF (filesize(fich)<50) AND (filesize(fich)>0) THEN
+		elem:=0;
+		WHILE NOT EOF(fich) DO {COLOREA TODOS DE VERDE}
 		BEGIN
-			WHILE NOT EOF(fich)	DO
-			BEGIN
-				seek(fich, l);
-				read(fich,elem);
-				colores(elem,a,b);
-				eliminar(elem,conjunto);
-				l:=l+1;
-			END;
+			IF (l=filesize(fich)-2) AND (elem<>0) THEN
+				b:=elem;
+			IF l=filesize(fich)-1 THEN
+				a:=elem;
+			seek(fich, l);
+			read(fich,elem);
+			tachar(elem,2);
+			eliminar(elem,conjunto);
+
+			l:=l+1;
+		END;
+		colores(elem,a,b);
 		close(fich);
 		instrucciones;
+		rename(fich,'save.tmp');
 		readln;
-		sorteo(conjunto,a,b,TRUE,fin);
-		END
-		ELSE
-		BEGIN
-			close(fich);
-			crearconjuntovacio(conjunto);
-			Generador(50,conjunto);
-			window(1,16,80,25);
-			gotoXY(7,4);
-			write('Pulsa [ENTER] para comenzar...');
-			readln;
-			tablero;
-			a:=0;
-			b:=0;
-			sorteo(conjunto,a,b,FALSE,fin);
-		END;
+		sorteo(conjunto,a,b,fin);
+	END
+	ELSE
+	BEGIN
+	fin:=FALSE;
+	write('SE HA PROCUCIDO UN ERROR AL CARGAR EL ARCHIVO...');
+	readln;
+	END;
 END;
 
 PROCEDURE guardar(VAR save:TFileElem);
 VAR
-	rut:string;
+	rut,rut2:string;
 BEGIN
 	window(1,1,80,25);
 	textbackground(0);
@@ -119,7 +130,19 @@ BEGIN
 	Write('Introduce un nombre para el fichero: ');
 	readln(rut);
 	rut:=rut +'.sav';
+	{$I-}   {Desactica el control de errores}
 	rename(save,rut);
+	{$I+}   {Actica el control de errores}
+	IF IORESULT=5 THEN{ ARCHIVO REPETIDO}
+	BEGIN
+		REPEAT
+			writeln('El archivo "',rut,'" ya existe.');
+			write('Por favor, escoja otro nombre: ');
+			readln(rut2);
+			rut2:=rut2 +'.sav';
+		UNTIL rut<>rut2;
+		rename(save,rut2);
+	END;
 	gotoxy(1,12);
 	write('Pulsa ');
 	TextColor(15);

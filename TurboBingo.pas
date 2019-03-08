@@ -13,6 +13,7 @@ PROCEDURE jugar(VAR conj:Tconjunto;VAR bol:boolean);
 VAR
 j,k:TElemento;
 BEGIN
+	bol:=FALSE;
 	j:=0;
 	k:=0;
 	Inicializar;
@@ -21,7 +22,7 @@ BEGIN
 	write('Pulsa [ENTER] para comenzar...');
 	readln;
 	tablero;
-	sorteo(conj,j,k,FALSE,bol);
+	sorteo(conj,j,k,bol);
 END;
 
 PROCEDURE carton;
@@ -57,41 +58,65 @@ BEGIN
 		CASE opcion OF
 		'1':BEGIN
 				jugar(conjunto,fin);
+				REPEAT
 				IF fin THEN
 				BEGIN
-					Window(1,1,80,25);
-					TextBackGround(0);
-					clrscr;
-					gotoXY(54,25);
-					TextColor(8);
-					write(chr(184),'2012 TurboBingo Unlimited');
-					logo;
+					pausa;
+					readln(opcion);
+					CASE opcion OF
+						'1':jugar(conjunto,fin);
+						'2':guardar(archivo);
+						'3':BEGIN;END;
+						'4':cargar(archivo,'save.tmp',conjunto,fin);
+					ELSE
+						Write('Introduzca una opcion valida (1-4): ');
+					END;
 				END
-				ELSE BEGIN
-				REPEAT
-				pausa;
-				readln(opcion);
-				CASE opcion OF
-				'1':jugar(conjunto,fin);
-				'2':guardar(archivo);
-				'3':BEGIN;END;
-				'4':cargar(archivo,'save.tmp',conjunto);
 				ELSE
-					Write('Introduzca una opcion valida (1-4): ');
-				END;
+				opcion:='3';{Si no viene de pausa, es el final}
 				UNTIL (opcion='2') OR (opcion='3');
-				END;
+				Window(1,1,80,25);
+				TextBackGround(0);
+				clrscr;
+				gotoXY(54,25);
+				TextColor(8);
+				write(chr(184),'2012 TurboBingo Unlimited');
+				logo;
 			END;
 		'2':carton;
 		'3':BEGIN
 			Write('Nombre del archivo a cargar: ');
 			readln(ruta);
 			ruta:=ruta+'.sav';
-			cargar(archivo,ruta,conjunto);
+			cargar(archivo,ruta,conjunto,fin);
+			REPEAT
+			IF fin THEN
+			BEGIN
+				pausa;
+				readln(opcion);
+				CASE opcion OF
+					'1':jugar(conjunto,fin);
+					'2':guardar(archivo);
+					'3':BEGIN;END;
+					'4':cargar(archivo,'save.tmp',conjunto,fin);
+				ELSE
+					Write('Introduzca una opcion valida (1-4): ');
+				END;
+			END
+			ELSE
+				opcion:='3';{Si no viene de pausa, es el final}
+			UNTIL (opcion='2') OR (opcion='3');
+			Window(1,1,80,25);
+			TextBackGround(0);
+			clrscr;
+			gotoXY(54,25);
+			TextColor(8);
+			write(chr(184),'2012 TurboBingo Unlimited');
+			logo;
 			END;
 		'4':BEGIN
 				writeln;
-				writeln('Gracias por utilizar TurboBingo',chr(169),' v3.0');
+				writeln('Gracias por utilizar TurboBingo',chr(169),' v3.1');
 				write('Pulsa ');
 				TextColor(15);
 				write('[ENTER]');

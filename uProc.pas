@@ -9,7 +9,7 @@ PROCEDURE tablero;
 PROCEDURE colores(VAR i,j,k:TElemento);
 PROCEDURE tachar(n,color:integer);
 PROCEDURE numero(n,color:integer);
-PROCEDURE sorteo(VAR bolas:TConjunto;VAR j,k:TElemento; pause:boolean; VAR fin:boolean);
+PROCEDURE sorteo(VAR bolas:TConjunto;VAR j,k:TElemento;VAR pause:boolean);
 PROCEDURE creararchivo(VAR fich:TFileElem);
 PROCEDURE Pausa;
 PROCEDURE instrucciones;
@@ -37,7 +37,7 @@ BEGIN
 	TextColor(15);
 	writeln('**********************************');
 	writeln('*                                *');
-	writeln('*       TurboBingo',chr(169),' v3.0         *');
+	writeln('*       TurboBingo',chr(169),' v3.1         *');
 	writeln('*                                *');
 	writeln('**********************************');
 END;
@@ -160,6 +160,7 @@ PROCEDURE tachar(n,color:integer);
 VAR
 	x,y:integer;
 BEGIN
+	window(1,1,80,25);
 	x:=7*((n-1) MOD 10)+5;{Calcula la posicion X de la casilla}
 	y:=2*((n-1) DIV 10)+7;{Calcula la posicion Y de la casilla}
 	gotoXY(x,y);
@@ -270,7 +271,7 @@ END;
 
 PROCEDURE colores(VAR i,j,k:TElemento);
 BEGIN
-IF j<>0 THEN
+IF j>0 THEN
 		BEGIN
 			tachar(j,5);{tacha en magenta}
 			window(23,18,28,25);
@@ -278,7 +279,7 @@ IF j<>0 THEN
 			window(30,18,35,25);
 			numero(j MOD 10,12);
 			window(1,1,80,25);
-			IF k<>0 THEN
+			IF k>0 THEN
 			BEGIN
 				tachar(k,2);{tacha en Verde}
 				window(6,18,11,25);
@@ -320,13 +321,12 @@ BEGIN
 	write('menu...');
 	window(1,1,80,25);
 END;
-PROCEDURE sorteo(VAR bolas:TConjunto;VAR j,k:TElemento; pause:boolean; VAR fin:boolean);
+PROCEDURE sorteo(VAR bolas:TConjunto;VAR j,k:TElemento;VAR pause:boolean);
 VAR
 	fich:TFileElem;
 	i:TElemento;
 	key:char;
 BEGIN
-	fin:=FALSE;
 	IF pause THEN
 	BEGIN
 	assign(fich, 'save.tmp');
@@ -339,10 +339,10 @@ BEGIN
 	pause:=FALSE;
 	WHILE NOT EsConjuntoVacio(bolas) AND NOT pause DO BEGIN
 		i:=Elegir(bolas);
-		Play(i);
 		write(fich,i);
 		colores(i,j,k);
 		Eliminar(i,bolas);
+		Play(i);
 		key:=readkey;
 		pause:= ord(key)=27;
 	END;
@@ -356,10 +356,8 @@ BEGIN
 	END
 	ELSE
 		BEGIN
-			erase(fich); {BORRA EL ARCHIVO AL ACABAR LA PARTIDA}
 			close(fich);
 			tablero;
-			fin:=TRUE;
 		END;
 END;
 
