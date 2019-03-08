@@ -18,7 +18,7 @@ BEGIN
 	k:=0;
 	Inicializar;
 	tablero;
-	Generador(bolas,conj);
+	Generador(1,bolas,conj);
 	write('Pulsa [ENTER] para comenzar...');
 	readln;
 	tablero;
@@ -116,7 +116,7 @@ BEGIN
 			END;
 		'4':BEGIN
 				writeln;
-				writeln('Gracias por utilizar TurboBingo',chr(169),' v3.1');
+				writeln('Gracias por utilizar TurboBingo',chr(169),' v3.2');
 				write('Pulsa ');
 				TextColor(15);
 				write('[ENTER]');

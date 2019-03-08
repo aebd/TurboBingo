@@ -15,7 +15,7 @@ USES uElem;
 	FUNCTION EsConjuntoVacio(conjunto:TConjunto):boolean;
 	PROCEDURE Poner(elem:TElemento; VAR conjunto:TConjunto);
 	PROCEDURE MostrarConjunto(conjunto:TConjunto);
-	PROCEDURE Generador(n:longint; VAR conjunto:TConjunto);
+	PROCEDURE Generador(inicio,fin:TElemento; VAR conjunto:TConjunto);
 	FUNCTION Menor(VAR conjunto:TConjunto):longint;
 	PROCEDURE Eliminar(elem:TElemento; VAR conjunto:TConjunto);
 	PROCEDURE EliminarMultiplos(n:longint;VAR conjunto:TConjunto);
@@ -54,11 +54,11 @@ implementation
 			writeln;
 	END;
 
-	PROCEDURE Generador(n:longint; VAR conjunto:TConjunto);
+	PROCEDURE Generador(inicio,fin:TElemento; VAR conjunto:TConjunto);
 		VAR
 			i:longint;
 		BEGIN
-			FOR i:=n DOWNTO 1 DO BEGIN
+			FOR i:=fin DOWNTO inicio DO BEGIN
 				Poner(i,conjunto);
 			END;
 	END;

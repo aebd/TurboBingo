@@ -1,6 +1,6 @@
 unit uFicheros;
 interface
-USES uConjuntos,uElem,uProc,crt;
+USES uConjuntos,uElem,uProc,crt,uVectores;
 
 	PROCEDURE Cartones;
 	PROCEDURE cargar(VAR fich:TFileElem;ruta:string;VAR conjunto:TConjunto;VAR fin:boolean);
@@ -12,11 +12,32 @@ implementation
 	CONST
 		MAX=15; (* numeros de cada carton*)
 	VAR
-		conjunto:TConjunto;
+		conj:TConjunto;
 		ruta:string[100];
 		archivo:text;
-		numero,j,k:integer;
-		num:TElemento;
+		numero,k:integer;
+
+
+	PROCEDURE GeneraDecenas(inicio,fin:integer);
+		CONST
+			NUM_DEC=3; (* numeros a elegir en cada decena*)
+		VAR
+		i,j:integer;
+		vector:TVector;
+	BEGIN
+		CrearConjuntoVacio(conj);
+		Generador(inicio,fin,conj);
+		FOR i:=1 TO NUM_DEC DO BEGIN
+			j:=Elegir(conj);
+			vector[i]:=j;
+			Eliminar(j,conj);
+		END;
+		Ordenar(vector);
+		FOR i:=1 TO 3 DO
+			write(archivo,vector[i],' ');
+	END;
+
+
 	BEGIN
 		numero:=0;
 		write('Numero de cartones a generar: ');
@@ -26,19 +47,15 @@ implementation
 		writeln;
 		assign(archivo,ruta);
 		rewrite(archivo);
-		FOR j:=1 TO numero DO
-		BEGIN
-			write(archivo,'Cartón ',j,':  ');
-			crearconjuntovacio(conjunto);
-			generador(50,conjunto);
-			FOR k:=1 TO MAX DO
-				BEGIN
-				num:=Elegir(conjunto);
-				write(archivo,num ,' ');
-				eliminar(num,conjunto);
-			END;
-			writeln(archivo);
-			writeln(archivo);
+
+		FOR k:=1 TO numero DO BEGIN
+			write(archivo,'Cartón ',k,':  ');
+			GeneraDecenas(1,10);
+			GeneraDecenas(11,20);
+			GeneraDecenas(21,30);
+			GeneraDecenas(31,40);
+			GeneraDecenas(41,50);
+			writeln(archivo, chr(10));
 		END;
 		close(archivo);
 		writeln('Se ha guardado con exito el archivo ',ruta,' ');
@@ -75,7 +92,7 @@ BEGIN
 	BEGIN
 		tablero;
 		crearconjuntovacio(conjunto);
-		Generador(50,conjunto);
+		Generador(1,50,conjunto);
 		tablero;
 		elem:=0;
 		WHILE NOT EOF(fich) DO {COLOREA TODOS DE VERDE}
